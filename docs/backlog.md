@@ -149,3 +149,16 @@
 - Responsive layout (mobile-first)
 - Buttons big enough to tap
 - No horizontal scroll on phone
+
+### Story 13 (Medium – 5 pts) - ADDED Phase 2
+**As a** student,
+**I want to** receive email notifications for upcoming deadlines,
+**so that** I never miss important due dates.
+
+**Acceptance Criteria:**
+- Email sent 24 hours before task due date
+- User can enable/disable in settings
+- Works for High priority tasks only first
+- Email includes task link
+
+print("✅ Backlog updated with Story 13")

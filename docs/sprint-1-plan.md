@@ -76,3 +76,18 @@ Build the core user authentication + task CRUD + basic completion tracking.
 - **Sprint Planning:** Day 1  
 - **Daily Standups:** Every day at 9 PM (online)  
 - **Sprint Review + Retro:** End of Week 2
+
+## Change Request (Phase 2)
+**New requirement:** Email notifications for upcoming deadlines
+
+**Impact Assessment:**
+- New story points: +5 (Story 13)
+- Moved Story 10 to Sprint 2
+- Updated risk register with email delivery risk
+
+**Updated Sprint 1 Stories (7 stories – 29 points):**
+| Story | Points |
+|-------|--------|
+| 1,2,3,4,5,6,13 | 29 |
+
+print("✅ Sprint plan updated")
