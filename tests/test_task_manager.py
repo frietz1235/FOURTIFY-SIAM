@@ -59,3 +59,34 @@ class TestTaskManager:
         # Expected: (1/2) * 100 = 50%
         # BUT bug makes it return 0.5 instead of 50
         assert percentage == 50.0  # This will FAIL
+
+
+    # Test 6: Get tasks by status
+    def test_get_tasks_by_status(self):
+        task1 = self.tm.add_task("Task 1", "Desc", "2024-12-31")
+        task2 = self.tm.add_task("Task 2", "Desc", "2024-12-31")
+        
+        self.tm.mark_task_complete(task1)
+        
+        completed = self.tm.get_tasks_by_status(completed_only=True)
+        pending = self.tm.get_tasks_by_status(completed_only=False)
+        
+        assert len(completed) == 1
+        assert len(pending) == 1
+    
+    # Test 7: Get task summary
+    def test_get_task_summary(self):
+        task1 = self.tm.add_task("Task 1", "Desc", "2024-12-31", "High")
+        task2 = self.tm.add_task("Task 2", "Desc", "2024-12-31", "Medium")
+        task3 = self.tm.add_task("Task 3", "Desc", "2024-12-31", "Low")
+        
+        self.tm.mark_task_complete(task1)
+        
+        summary = self.tm.get_task_summary()
+        
+        assert summary["total"] == 3
+        assert summary["completed"] == 1
+        assert summary["pending"] == 2
+        assert summary["priority_counts"]["High"] == 1
+        assert summary["priority_counts"]["Medium"] == 1
+        assert summary["priority_counts"]["Low"] == 1

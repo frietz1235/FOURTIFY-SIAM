@@ -61,6 +61,35 @@ class TaskManager:
         """Return list of tasks with given priority"""
         return [task for task in self.tasks.values() if task.priority == priority]
     
+
+
+    def get_tasks_by_status(self, completed_only=True):
+        """Get tasks filtered by completion status (NEW FEATURE)"""
+        if completed_only:
+            return [task for task in self.tasks.values() if task.completed]
+        else:
+            return [task for task in self.tasks.values() if not task.completed]
+    
+    def get_task_summary(self):
+        """Return summary statistics (NEW FEATURE)"""
+        total = len(self.tasks)
+        completed = sum(1 for task in self.tasks.values() if task.completed)
+        pending = total - completed
+        
+        priority_counts = {
+            "High": sum(1 for task in self.tasks.values() if task.priority == "High"),
+            "Medium": sum(1 for task in self.tasks.values() if task.priority == "Medium"),
+            "Low": sum(1 for task in self.tasks.values() if task.priority == "Low")
+        }
+        
+        return {
+            "total": total,
+            "completed": completed,
+            "pending": pending,
+            "completion_percentage": self.get_completion_percentage(),
+            "priority_counts": priority_counts
+        }
+
     def get_overdue_tasks(self, current_date):
         """Return tasks with due_date before current_date and not completed"""
         overdue = []
