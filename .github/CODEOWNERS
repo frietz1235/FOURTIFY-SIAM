@@ -1,0 +1,14 @@
+# CODEOWNERS – FOURTIFY
+# These users are required to review PRs for specific files
+
+# Project lead owns everything
+* @frietz1235
+
+# QA Lead owns test files
+/tests/ @HakimaAbdulkarim
+
+# Documentation owned by Docs Lead
+/docs/ @KarlSimon
+
+# Source code owned by DevOps Lead
+/src/ @AyyahAmpuan
