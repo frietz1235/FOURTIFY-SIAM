@@ -49,7 +49,6 @@ class TaskManager:
         return False
     
     def get_completion_percentage(self):
-        """Calculate percentage (CONFLICT BRANCH VERSION)"""
         """Calculate percentage of completed tasks (FIXED)"""
         if len(self.tasks) == 0:
             return 0.0
