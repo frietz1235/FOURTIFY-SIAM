@@ -1,4 +1,4 @@
-# tests/test_task_manager.py
+# tests/test_task_manager.py - UPDATED for refactored code
 import sys
 import os
 sys.path.insert(0, os.path.abspath("src"))
@@ -46,9 +46,8 @@ class TestTaskManager:
         assert result == True
         assert len(self.tm.tasks) == 0
     
-    # Test 5: Get completion percentage (THIS TEST WILL FAIL - intentional bug!)
+    # Test 5: Get completion percentage
     def test_completion_percentage(self):
-        # Add 2 tasks, complete 1 of them
         task1 = self.tm.add_task("Task 1", "Desc", "2024-12-31")
         task2 = self.tm.add_task("Task 2", "Desc", "2024-12-31")
         
@@ -56,11 +55,8 @@ class TestTaskManager:
         
         percentage = self.tm.get_completion_percentage()
         
-        # Expected: (1/2) * 100 = 50%
-        # BUT bug makes it return 0.5 instead of 50
-        assert percentage == 50.0  # This will FAIL
-
-
+        assert percentage == 50.0
+    
     # Test 6: Get tasks by status
     def test_get_tasks_by_status(self):
         task1 = self.tm.add_task("Task 1", "Desc", "2024-12-31")
@@ -90,3 +86,13 @@ class TestTaskManager:
         assert summary["priority_counts"]["High"] == 1
         assert summary["priority_counts"]["Medium"] == 1
         assert summary["priority_counts"]["Low"] == 1
+    
+    # Test 8: Invalid date raises ValueError (NEW test for validation)
+    def test_invalid_date_raises_error(self):
+        with pytest.raises(ValueError):
+            self.tm.add_task("Task", "Desc", "invalid-date")
+    
+    # Test 9: Empty title raises ValueError (NEW test for validation)
+    def test_empty_title_raises_error(self):
+        with pytest.raises(ValueError):
+            self.tm.add_task("", "Desc", "2024-12-31")
