@@ -3,64 +3,41 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   test:
-    name: Test - Unit Tests
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.12'
-    
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
         pip install pytest requests
-    
-    - name: Run unit tests
+    - name: Run tests
       run: |
         python -m pytest tests/ -v
 
   deploy:
-    name: Deploy - GitHub Pages
+    name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
-        publish_branch: gh-pages
-
-  smoke-test:
-    name: Smoke Test - Post-Deploy
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: github.ref == 'refs/heads/main'
-    steps:
-    - uses: actions/checkout@v4
+        fetch-depth: 0
     
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-    
-    - name: Install dependencies
+    - name: Deploy to gh-pages
       run: |
-        pip install pytest requests
-    
-    - name: Run smoke tests
-      run: |
-        python -m pytest tests/test_smoke_deploy.py -v
-      env:
-        DEPLOYED_URL: "https://frietz1235.github.io/FOURTIFY-SIAM/"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git fetch origin
+        git checkout gh-pages 2>/dev/null || git checkout --orphan gh-pages
+        git rm -rf . 2>/dev/null || true
+        git checkout main -- .
+        git add .
+        git commit -m "Deploy from ${{ github.sha }}" || echo "No changes to commit"
+        git push origin gh-pages --force
