@@ -24,7 +24,7 @@ jobs:
         pip install pytest requests
     - name: Run tests
       run: |
-        python -m pytest tests/ -v
+        python -m pytest tests/test_task_manager.py -v
 
   deploy:
     name: Deploy to GitHub Pages
@@ -52,7 +52,8 @@ jobs:
       with:
         python-version: '3.12'
     - name: Install dependencies
-      run: pip install requests
+      run: |
+        pip install pytest requests
     - name: Run smoke tests
       run: |
         python -m pytest tests/test_smoke_deploy.py -v
