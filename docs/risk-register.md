@@ -21,3 +21,7 @@
 | Email delivery failure (SMTP/API) | 3 | 3 | 9 | Use reliable email service (SendGrid); retry logic; log failures | Hakima |
 
 print("✅ Risk register updated")
+
+| Token theft / session hijacking | 3 | 5 | 15 | HTTP-only cookies, short expiry (1 hour), HTTPS only | Nomeben |
+| Input injection (XSS/SQL) | 4 | 4 | 16 | Input sanitization, parameterized queries, output encoding | Hakima |
+| Dependency vulnerability (supply chain) | 3 | 4 | 12 | Weekly pip-audit scans, automated dependency updates | Ayyah |

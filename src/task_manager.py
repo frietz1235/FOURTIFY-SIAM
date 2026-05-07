@@ -35,6 +35,39 @@ class Task:
 
 class TaskManager:
     """Main task management system"""
+
+    def _sanitize_input(self, text: str) -> str:
+        """Sanitize user input to prevent XSS and injection"""
+        if not isinstance(text, str):
+            text = str(text)
+        # Remove potentially dangerous characters
+        dangerous_chars = ['<', '>', '&', '"', "'", ';', '--', '/*', '*/']
+        for char in dangerous_chars:
+            text = text.replace(char, '')
+        return text.strip()
+    
+    def _validate_task_id(self, task_id: int) -> bool:
+        """Validate task ID is positive integer"""
+        return isinstance(task_id, int) and task_id > 0
+    
+    def add_task_secure(self, title: str, description: str, due_date: str, 
+                         priority: str = "Medium") -> int:
+        """Secure version with sanitization"""
+        # Input sanitization
+        title = self._sanitize_input(title)
+        description = self._sanitize_input(description)
+        
+        # Validation
+        if not title or len(title) < 3:
+            raise ValueError("Title must be at least 3 characters")
+        if len(title) > 100:
+            raise ValueError("Title cannot exceed 100 characters")
+        if len(description) > 500:
+            raise ValueError("Description cannot exceed 500 characters")
+        if not self._validate_date(due_date):
+            raise ValueError("Invalid date format - use YYYY-MM-DD")
+        
+        return self.add_task(title, description, due_date, priority)
     
     # Date format expected
     DATE_FORMAT = "%Y-%m-%d"
